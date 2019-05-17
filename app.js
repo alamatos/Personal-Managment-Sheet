@@ -21,7 +21,7 @@ class Expense {
     }
 }
 
-class Bd {
+class Db {
     constructor () {
         let id = localStorage.getItem('id')
         if (id === null) {
@@ -101,11 +101,13 @@ class Bd {
     return filteredExpenses
     }
 
-    remove (id) {
-        localStorage.removeItem(id)
+    remover (id) {
+        let a = id
+        alert(a)
+        localStorage.removeItem(a)
     }
 }
-let bd = new Bd()
+let db = new Db()
 
 
 
@@ -122,7 +124,7 @@ function expenseRegistration () {
 let expense = new Expense(year.value, month.value, day.value, type.value, desc.value, value.value)
 
 if (expense.validateData()) {
-    bd.save(expense)
+    db.save(expense)
     document.getElementById('modalTitle').innerHTML = 'Record inserted successfully'
     document.getElementById('modalTitlediv').className = 'modal-header text-success'
     document.getElementById('modalContent').innerHTML = "Expense registered with success."
@@ -153,7 +155,7 @@ if (expense.validateData()) {
 function loadExpensesList (expenses = Array(), filter = false) {
 
     if (expenses.length == 0 && filter== false) {
-        expenses = bd.allExpenses ()
+        expenses = db.allExpenses ()
     }
     // selecting the HTML element where i'm going to insert all the data
 
@@ -191,12 +193,12 @@ function loadExpensesList (expenses = Array(), filter = false) {
         let btn = document.createElement('button')
         btn.className='btn btn-danger'
         btn.innerHTML = '<i class="fas fa-times"></i>'
-        btn.id= `id_expense_ ${d.id}`
+        btn.id= `id_expense_${d.id}`
         btn.onclick = function () {
             
             let id = this.id.replace('id_expense_','')
-            alert(id)
-            bd.remove(id)
+            // alert(id)
+            db.remover(id)
             window.location.reload()
         }
         line.insertCell(4).append(btn)
@@ -215,7 +217,7 @@ function searchExpense() {
 
     let expense = new Expense(year,month, day, type, description, value)
     
-    let expenses = bd.search(expense)
+    let expenses =db.search(expense)
     loadExpensesList(expenses, true)
     
 }
